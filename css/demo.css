@@ -8,6 +8,14 @@ textarea.scroll {
     overflow-y: scroll;
 }
 
+.rtl .jquery-placeholder-text {
+    direction: rtl;
+}
+
+.rtl textarea {
+    direction: rtl;
+}
+
 .jquery-placeholder-text {
     color: #aaa;
     -moz-transition: color 0.15s ease-in;
@@ -17,3 +25,4 @@ textarea.scroll {
 .jquery-placeholder-text.jquery-placeholder-text-focused{
     color: #ddd;
 }
+

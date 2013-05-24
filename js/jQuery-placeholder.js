@@ -26,7 +26,8 @@
     //Require jQuery
 
 
-    var INSTANCE_KEY = "placeholder-instance";
+    var INSTANCE_KEY = "placeholder-instance",
+        NAN = +"asd";
 
         
     var hasOwn = {}.constructor.hasOwnProperty,
@@ -46,7 +47,17 @@
         }
         return props[0];
     })();
-
+    
+    //Return NaN if the element is not affected by its zIndex even if it has zIndex
+    //Return NaN if the element doesn't have a zIndex
+    var rpositioned = /^\s*(?:relative|absolute|fixed)\s*$/i;
+    function getZIndex( $elem ) {
+        return rpositioned.test( $elem.css("position") ) ? 
+            parseInt( $elem.css( "zIndex" ) + "", 10 ) : //Returns NaN for "", null, undefined, false...
+            NAN;
+            
+    }
+    
     function getPosition( $elem ) {
         var ret = $elem.position();
         ret.left += numericCss( $elem, "marginLeft" );
@@ -143,8 +154,14 @@
         overflow: "hidden",
         mozBoxSizing: "content-box",
         webkitBoxSizing: "content-box",
+        boxSizing: "content-box",
         pointerEvents: "none",
-        boxSizing: "content-box"
+        backgroundColor: "transparent",
+        backgroundImage: "none",
+        float: "none",
+        display: "block",
+        wordWrap: "break-word"
+        
     };
  
     function makePlaceholder() {
@@ -170,15 +187,17 @@
             FOCUSED = {},
             FILLED = {};
         
-        function Placeholder( elem, text, options ) {
+        function Placeholder( elem, options ) {
             this._elem = $(elem);
-            this._text = "" + (text || options.text || $.fn.placeholder.options.text);
+            var text = "" + (this._elem.attr("placeholder") || options.text || $.fn.placeholder.options.text);
+            this._elem.removeAttr( "placeholder" );
+            
+            this._text = text;
             this._hideOnFocus = !!parseOption( options, this._elem, "hideOnFocus");
+            
             this._placeholder = makePlaceholder();
             this._state = UNINITIALIZED;
-            
             this._id = getId();
-            
             this._offsetCache = null;
             this._parentCache = null;
                         
@@ -192,6 +211,8 @@
                 this._onPossibleStateChange
             );
             
+            
+            
             this._reattach();            
         }
         
@@ -203,15 +224,24 @@
         method._reattach = function() {
             this._offsetCache = null;
             this._state = UNINITIALIZED;
-            var parent = this._parentCache = this._elem[0].parentNode;
+            this._parentCache = this._elem[0].parentNode;
         
             this._placeholder.off( ".placeholder" )
                 .detach()
                 .text( this._text )
                 .on( "click.placeholder focusin.placeholder focus.placeholder", this._onFocus )
                 .on( "selectstart.placeholder", preventDefault )
-                .appendTo( parent );
-                
+                .insertAfter( this._elem )
+            
+            var zIndex = getZIndex( this._elem );
+            
+            if( isFinite( zIndex ) ) {
+                this._placeholder.css( "zIndex", zIndex + 1 );
+            }
+            else {
+                this._placeholder.css( "zIndex", "" );
+            }
+            
             this._updateState();
         };
         
@@ -340,6 +370,7 @@
             this._placeholder.off( ".placeholder" ).remove();
             this._elem.off( ".placeholder" ).removeData( INSTANCE_KEY );
             this._parentCache = null;
+            this._elem.attr( "placeholder", this._text );
             
         };
         
@@ -404,11 +435,10 @@
         return this.filter( "textarea,input" ).each( function( option ) {
             
             var $this = $( this ),
-                text = $this.data( "placeholder" ),
                 data = $this.data( INSTANCE_KEY );
             
             if( !data ) {
-                $this.data( INSTANCE_KEY, ( data = new Placeholder( this, text, $.extend( {}, option || {} ) ) ) );
+                $this.data( INSTANCE_KEY, ( data = new Placeholder( this, $.extend( {}, option || {} ) ) ) );
             }
             if( typeof option == 'string' && option.charAt(0) !== "_" && data[option].apply ) {
                 data[option].apply( data, arguments.length > 1 ? [].slice.call( arguments, 1 ) : [] );
@@ -424,7 +454,7 @@
     };
     
     $.fn.placeholder.refresh = function() {
-        $( "textarea[data-placeholder], input[data-placeholder]" ).placeholder();
+        $( "textarea[placeholder], input[placeholder]" ).placeholder();
     };
 
     $.fn.placeholder.Constructor = Placeholder;

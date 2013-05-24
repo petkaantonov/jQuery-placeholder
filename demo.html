@@ -32,6 +32,9 @@
         <div class="row">
             <div class="span12 well">
                 <h1>Autogrow demo page</h1>
+                Doesn't use native
+                Doesn't use .value
+                Doesn't use zIndex
                 <p>Demo page for jQuery autogrow plugin, includes examples of various ways to use the autogrow plugin.</p>
                 <br>
                 <p>See <a href="https://github.com/petkaantonov/jQuery-autogrow">project page</a> for documentation.</p>
@@ -52,7 +55,7 @@
                            <h4>No padding <small>3 rows</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea data-placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
+                            <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
                             <span class="help-inline"></span>
                         </div>
                         
@@ -65,7 +68,7 @@
                         </div>
                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea data-placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
+&lt;textarea placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
 </pre>
                         </div>
                     </div>
@@ -75,7 +78,7 @@
                            <h4>Heavy padding <small><br>3 rows</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea data-placeholder-hide-on-focus="true" data-placeholder="Write something here..." style="padding: 45px;" class="span3" data-autogrow rows="3"></textarea>
+                            <textarea data-placeholder-hide-on-focus="true" placeholder="Write something here..." style="padding: 45px;" class="span3" data-autogrow rows="3"></textarea>
                             <span class="help-inline"></span>
                         </div>
 
@@ -86,7 +89,7 @@
                         </div>
                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea <span class="hilite">data-placeholder-hide-on-focus</span>="true" <span class="hilite">data-placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
+&lt;textarea <span class="hilite">data-placeholder-hide-on-focus</span>="true" <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
 </pre>
                         </div>
                     </div>
@@ -98,7 +101,7 @@
                            <h4>Medium padding, with border <small><br>3 rows</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea data-placeholder="Write something here..." style="padding: 20px; border: 5px solid black; box-sizing: border-box;" class="span3" data-autogrow rows="3"></textarea>
+                            <textarea placeholder="Write something here..." style="padding: 20px; border: 5px solid black; box-sizing: border-box;" class="span3" data-autogrow rows="3"></textarea>
                             <span class="help-inline"></span>
                         </div>
 
@@ -109,7 +112,7 @@
                         </div>
                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea style="padding: 20px; border: 5px solid black;" data-placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
+&lt;textarea style="padding: 20px; border: 5px solid black;" placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
 </pre>
                         </div>
                     </div>
@@ -120,7 +123,7 @@
                            <h4>Scrollbar <small>3 rows</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea data-placeholder="Write something here..." class="span3 scroll" data-autogrow rows="3"></textarea>
+                            <textarea placeholder="Not empty" class="span3 scroll" data-autogrow rows="3"></textarea>
                             <span class="help-inline"></span>
                         </div>
                         
@@ -133,7 +136,7 @@
                         </div>
                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea data-placeholder="Write something here..." class="span3 scroll" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
+&lt;textarea placeholder="Write something here..." class="span3 scroll" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
 </pre>
 
                         </div>
@@ -151,7 +154,36 @@
 
 
 
-                    
+ 
+ 
+                     <div class="control-group">
+                         <div class="span2">
+                            <h4>Right-to-left <small>3 rows</small></h4>
+                         </div>
+                         <div class="controls rtl">
+                             <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
+                             <span class="help-inline"></span>
+                         </div>
+                         
+ 
+                     </div>
+ 
+                     <div class="control-group">
+                         <div class="span2">
+                            <h4>CSS <small>...markup <br>is default</small></h4>
+                         </div>
+                         <div class="controls">
+ <pre class="prettyprint">
+.rtl .jquery-placeholder-text {
+    direction: rtl;
+}
+
+.rtl textarea {
+    direction: rtl;
+}
+ </pre>
+                         </div>
+                    </div>
                     
                     
                     
@@ -184,13 +216,10 @@ textarea.scroll {
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Modal header</h3>
       </div>
-        <p>One fine body…</p>
       <div class="modal-body">
-      <textarea data-placeholder="Write something here..." class="span3" rows="3"></textarea>
+      <textarea placeholder="Write something here..." class="span3" rows="3"></textarea>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
       </div>
     </div>
     
