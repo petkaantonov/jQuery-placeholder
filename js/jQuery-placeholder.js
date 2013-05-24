@@ -152,6 +152,13 @@
     var Placeholder = (function() {
         var method = Placeholder.prototype;
         
+        var getId = (function() {
+            var id = 0;
+            return function() {
+                return ("" + (id++));
+            };
+        })();
+        
         var UNINITIALIZED = {},
             UNFOCUSED = {},
             FOCUSED = {},
@@ -163,6 +170,8 @@
             this._hideOnFocus = !!parseOption( options, this._elem, "hideOnFocus");
             this._placeholder = makePlaceholder();
             this._state = UNINITIALIZED;
+            
+            this._id = getId();
             
             this._offsetCache = null;
             this._parentCache = null;
@@ -180,6 +189,10 @@
             this._reattach();            
         }
         
+        //For hashmap
+        method.toString = function() {
+            return this._id;      
+        };
         
         method._reattach = function() {
             this._offsetCache = null;
@@ -328,18 +341,30 @@
             var timerId = 0,
                 tracking = false;
                 
-            var trackedInstances = [];
+            var trackedInstances = {};
+                
                 
             function track() {
-                for( var i = 0, l = trackedInstances.length; i < l; ++i ) {
-                    trackedInstances[i]._updatePositionIfChanged();
+                for( var i in trackedInstances ) {
+                    if( hasOwn.call( trackedInstances, i ) ) {
+                        trackedInstances[i]._updatePositionIfChanged();
+                    }
                 }
                 timerId = setTimeout( track, 45 );
+            }
+            
+            function isEmpty( obj ) {
+                for( var i in obj ) {
+                    if( hasOwn.call( obj, i ) ) {
+                        return false;
+                    }
+                }
+                return true;
             }
         
             return {
                 check: function() {
-                    if( trackedInstances.length ) {
+                    if( !isEmpty( trackedInstances ) ) {
                         if( !tracking ) {
                             tracking = true;
                             timerId = setTimeout( track, 45 );
@@ -353,17 +378,12 @@
                 },
                 
                 track: function( instance ) {
-                    if( $.inArray( instance, trackedInstances ) < 0 ) {
-                        trackedInstances.push( instance );
-                    }
+                    trackedInstances[instance] = instance;
                     this.check();
                 },
                 
                 untrack: function( instance ) {
-                    var i = $.inArray( instance, trackedInstances );
-                    if( i > -1 ) {
-                        trackedInstances.splice(i, 1);
-                    }
+                    delete trackedInstances[instance];
                     this.check();
                 }
             };
