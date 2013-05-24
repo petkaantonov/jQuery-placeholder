@@ -15,210 +15,186 @@
             padding: 8px;
             background-color: #F7F7F9;
             border: 1px solid #E1E1E8;
+            margin-top: 0px;
             margin-bottom: 18px;
         }
         
         .hilite {
             color: #FF8C00;
         }
-                
+                        
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jQuery-placeholder.js"></script>
+
     <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
  </head>
  <body>
     <div class="container">
         <div class="row">
-            <div class="span12 well">
-                <h1>Autogrow demo page</h1>
-                Doesn't use native
-                Doesn't use .value
-                Doesn't use zIndex
-                <p>Demo page for jQuery autogrow plugin, includes examples of various ways to use the autogrow plugin.</p>
-                <br>
-                <p>See <a href="https://github.com/petkaantonov/jQuery-autogrow">project page</a> for documentation.</p>
+            <div class="span12">
+                <h1>Placeholder demo page</h1>
+                <p>Demo page for placeholder jQuery plugin, includes examples of various ways to use the placeholder component.</p>
+                <p>See <a href="https://github.com/petkaantonov/jQuery-placeholder">project page</a> for documentation.</p>
             </div>
         </div>
 
-        <div class="row">
-                
-            <div class="span12 well">
-                <h4>Default CSS</h4>
-<pre class="prettyprint">
-.jquery-placeholder-text {
-    color: #aaa;
-    -moz-transition: color, margin-left 0.15s ease-in;
-    -webkit-transition: color, margin-left 0.15s ease-in;
-    -0-transition: color, margin-left 0.15s ease-in;
-    transition: color, margin-left 0.15s ease-in;
-}
+        <div class="row"><div class="span12"><hr></div></div>
 
-.jquery-placeholder-text.jquery-placeholder-text-focused {
-    color: #ddd;
-}
+        <div class="row">
+            <div class="span4">
+                <h4>Basic example</h4>
+                <textarea placeholder="Write something here..." class="span3" rows="3"></textarea>
+            </div>
+            <div class="span8">
+                <h4>Markup</h4>
+<pre class="prettyprint">
+&lt;textarea <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
 </pre>
             </div>
-            
         </div>
-    
-    
+        
+        <div class="row"><div class="span12"><hr></div></div>
+        
         <div class="row">
-                
-            <div class="span12 well">
-                <form class="form-horizontal" autocomplete="off" spellcheck="false">
-                    <fieldset>
-                    <legend>Write, paste or drop text into the textareas</legend>
-                    </fieldset>
-                    
-                    
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>No padding <small>3 rows</small></h4>
-                        </div>
-                        <div class="controls">
-                            <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
-                            <span class="help-inline"></span>
-                        </div>
-                        
-
-                    </div>
-
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Markup</h4>
-                        </div>
-                        <div class="controls">
-<pre class="prettyprint">
-&lt;textarea placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
-</pre>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Heavy padding <small><br>3 rows</small></h4>
-                        </div>
-                        <div class="controls">
-                            <textarea data-placeholder-hide-on-focus="true" placeholder="Write something here..." style="padding: 45px;" class="span3" data-autogrow rows="3"></textarea>
-                            <span class="help-inline"></span>
-                        </div>
-
-                    </div>
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Markup</h4>
-                        </div>
-                        <div class="controls">
+            <div class="span4">
+                <h4>Hide on focus</h4>
+                <textarea data-placeholder-hide-on-focus="true" placeholder="Write something here..." class="span3" rows="3"></textarea>
+            </div>
+            <div class="span8"><h4>Markup</h4>
 <pre class="prettyprint">
 &lt;textarea <span class="hilite">data-placeholder-hide-on-focus</span>="true" <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
 </pre>
-                        </div>
-                    </div>
-
-
-
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Medium padding, with border <small><br>3 rows</small></h4>
-                        </div>
-                        <div class="controls">
-                            <textarea placeholder="Write something here..." style="padding: 20px; border: 5px solid black; box-sizing: border-box;" class="span3" data-autogrow rows="3"></textarea>
-                            <span class="help-inline"></span>
-                        </div>
-
-                    </div>
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Markup</h4>
-                        </div>
-                        <div class="controls">
+            </div>
+        </div>
+        
+        <div class="row"><div class="span12"><hr></div></div>
+ 
+         <div class="row">
+             <div class="span4 elaborate-animation">
+                 <h4>Elaborate animations</h4>
+                 <textarea placeholder="Write something here..." class="span3" rows="3"></textarea>
+             </div>
+             <div class="span8"><h4>Markup+CSS</h4>
 <pre class="prettyprint">
-&lt;textarea style="padding: 20px; border: 5px solid black;" placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
+&lt;textarea <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
 </pre>
-                        </div>
-                    </div>
-                    
-                    
-                     <div class="control-group">
-                         <div class="span2">
-                            <h4>Heavily animated <small>3 rows</small></h4>
-                         </div>
-                         <div class="controls heavy-animation">
-                             <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
-                             <span class="help-inline"></span>
-                         </div>
-                         
- 
-                     </div>
- 
-                     <div class="control-group">
-                         <div class="span2">
-                            <h4>Additional CSS</h4>
-                         </div>
-                         <div class="controls">
 <pre class="prettyprint">
-.heavy-animation .jquery-placeholder-text {
+.elaborate-animation <span class="hilite">.jquery-placeholder-text</span> {
     margin-left: 0px;
 }
 
-.heavy-animation .jquery-placeholder-text.jquery-placeholder-text-focused {
+.elaborate-animation <span class="hilite">.jquery-placeholder-text.jquery-placeholder-text-focused</span> {
     margin-left: 100px;
     font-style: italic;
 }
 </pre>
-                    </div>
+
+             </div>
+        </div>
+        
+        <div class="row"><div class="span12"><hr></div></div>
+        
+        <div class="row">
+            <div class="span4">
+                <h4>Right-to-left</h4>
+                <div class="rtl">
+                    <textarea placeholder="Write something here..." class="span3" rows="3"></textarea>
                 </div>
-                    
-                    
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Inside modal<small> ...without relying on zIndex</small></h4>
-                        </div>
-                        <div class="controls">
-                            <a href="#myModal" role="button" class="btn" data-toggle="modal">Click here</a>
-                        </div>
-                    </div>
-
-
-
- 
- 
-                     <div class="control-group">
-                         <div class="span2">
-                            <h4>Right-to-left <small>3 rows</small></h4>
-                         </div>
-                         <div class="controls rtl">
-                             <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
-                             <span class="help-inline"></span>
-                         </div>
-                         
- 
-                     </div>
- 
-                     <div class="control-group">
-                         <div class="span2">
-                            <h4>Additional CSS</h4>
-                         </div>
-                         <div class="controls">
- <pre class="prettyprint">
-.rtl .jquery-placeholder-text {
+            </div>
+            <div class="span8"><h4>Markup+CSS</h4>
+<pre class="prettyprint">
+&lt;textarea <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
+</pre>
+<pre class="prettyprint">
+.rtl <span class="hilite">.jquery-placeholder-text</span> {
     direction: rtl;
 }
 
 .rtl textarea {
     direction: rtl;
 }
- </pre>
-                         </div>
-                    </div>
-                    
-                    
-                    
-                </form>
+</pre>
             </div>
         </div>
+        
+        <div class="row"><div class="span12"><hr></div></div>
 
+        <div class="row">
+            <div class="span4">
+                <h4>Modal / z-index robustness</h4>
+                <a href="#myModal" role="button" class="btn" data-toggle="modal">Click here</a>
+            </div>
+            <div class="span8"><h4>Markup</h4>
+<pre class="prettyprint">
+&lt;textarea <span class="hilite">placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
+</pre>
+            </div>
+        </div>
+        
+        <div class="row"><div class="span12"><hr></div></div>
+        
+        
+        <div class="row">
+            <div class="span4 input-placeholders">
+                <h4>Various inputs</h4>
+                <input type="email" placeholder="email" class="span3"><br>
+                <input type="password" placeholder="password" class="span3"><br>
+                <input type="tel" placeholder="telephone" class="span3"><br>
+            </div>
+            <div class="span8"><h4>Markup+CSS</h4>
+<pre class="prettyprint">
+&lt;input type=&quot;email&quot; <span class="hilite">placeholder</span>=&quot;email&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; <span class="hilite">placeholder</span>=&quot;password&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;tel&quot; <span class="hilite">placeholder</span>=&quot;telephone&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
+</pre>
+<pre class="prettyprint">
+.input-placeholders <span class="hilite">.jquery-placeholder-text</span> {
+    color: #000;
+}
+
+.input-placeholders <span class="hilite">.jquery-placeholder-text.jquery-placeholder-text-focused</span> {
+    color: #999;
+}
+</pre>
+            </div>
+        </div>
+        
+        <div class="row"><div class="span12"><hr></div></div>
+        
+        
+        <div class="row">
+
+            <div class="span4">
+                <h4>Base CSS</h4>
+                <p>The base css that is applied to every placeholder with low specificity.</p>
+            </div>
+            
+            <div class="span8">
+                
+                <pre class="prettyprint css">
+<span class="hilite">.jquery-placeholder-text</span> {
+    color: #aaa;
+    -moz-transition: color, margin-left 0.15s ease-in;
+    -webkit-transition: color, margin-left 0.15s ease-in;
+    -o-transition: color, margin-left 0.15s ease-in;
+    transition: color, margin-left 0.15s ease-in;
+}
+
+<span class="hilite">.jquery-placeholder-text.jquery-placeholder-text-focused</span> {
+    color: #ddd;
+}</pre>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="span4"></div>
+            <div class="span8"></div>
+        </div>
     </div>
     
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
