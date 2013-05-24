@@ -148,7 +148,8 @@
     var Placeholder = (function() {
         var method = Placeholder.prototype;
         
-        var UNFOCUSED = {},
+        var UNINITIALIZED = {},
+            UNFOCUSED = {},
             FOCUSED = {},
             FILLED = {};
         
@@ -157,7 +158,7 @@
             this._text = "" + (text || options.text || $.fn.placeholder.options.text);
             this._hideOnFocus = !!parseOption( options, this._elem, "hideOnFocus");
             this._placeholder = makePlaceholder();
-            this._state = UNFOCUSED;
+            this._state = UNINITIALIZED;
             this._offsetCache = null;
             
             this._placeholder.text( this._text ).appendTo( "body" );
@@ -187,7 +188,8 @@
             this._updateState();
         };
         
-        method._updateState = function() {            
+        method._updateState = function() {
+            var prevState = this._state;
             if( this._elem.val() ) {
                 this._state = FILLED;
             }
@@ -204,10 +206,12 @@
                     this._state = UNFOCUSED;
                 }
             }
-            this._actOnState();
+            if( prevState !== this._state ) {
+                this._actOnChangedState();
+            }
         };
         
-        method._actOnState = function() {
+        method._actOnChangedState = function() {
             switch( this._state ) {
                 case UNFOCUSED: 
                     this._placeholder.removeClass( $.fn.placeholder.options.focusedClass );
@@ -238,6 +242,7 @@
             }
         };
         
+        var nullOffsetCache = {left: 0, top: 0};
         method._updatePosition = function() {
             var el = this._elem,
                 width = getWidth( el ),
@@ -245,10 +250,7 @@
             
             //Don't deal with hidden inputs
             if( !width || !height ) {
-                this._offsetCache = {
-                    left: 0,
-                    top: 0
-                };
+                this._offsetCache = nullOffsetCache;
                 this._placeholder.hide();
                 return;
             }
