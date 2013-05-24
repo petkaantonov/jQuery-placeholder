@@ -21,7 +21,7 @@
         .hilite {
             color: #FF8C00;
         }
-        
+                
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jQuery-placeholder.js"></script>
@@ -75,7 +75,7 @@
                            <h4>Heavy padding <small><br>3 rows</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea data-placeholder="Write something here..." style="padding: 45px;" class="span3" data-autogrow rows="3"></textarea>
+                            <textarea data-placeholder-hide-on-focus="true" data-placeholder="Write something here..." style="padding: 45px;" class="span3" data-autogrow rows="3"></textarea>
                             <span class="help-inline"></span>
                         </div>
 
@@ -86,7 +86,7 @@
                         </div>
                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea style="padding: 45px;" data-placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
+&lt;textarea <span class="hilite">data-placeholder-hide-on-focus</span>="true" <span class="hilite">data-placeholder</span>="Write something here..."&gt;&lt;/textarea&gt;
 </pre>
                         </div>
                     </div>

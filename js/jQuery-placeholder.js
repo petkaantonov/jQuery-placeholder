@@ -22,7 +22,7 @@
 (function(global, $) {
     "use strict";
 
-    //TODO positional tests and IE 
+    //TODO IE8
     //Require jQuery
 
 
@@ -47,6 +47,12 @@
         return props[0];
     })();
 
+    function getPosition( $elem ) {
+        var ret = $elem.position();
+        ret.left += numericCss( $elem, "marginLeft" );
+        ret.top += numericCss( $elem, "marginTop" );
+        return ret;
+    }
 
     function numericCss( $elem, key ) {
         return parseInt( $elem.css( key ), 10 );
@@ -275,7 +281,7 @@
         };
         
         method._updatePositionIfChanged = function() {
-            var offset = this._elem.position(),
+            var offset = getPosition( this._elem ),
                 cached = this._offsetCache;
             
             //Don't update position again if the reattach was performed from ._checkRemoved()
@@ -298,7 +304,7 @@
                 return;
             }
             
-            var offset = el.position(),
+            var offset = getPosition( el ),
                 pl = this._placeholder;
               
             this._offsetCache = offset;
