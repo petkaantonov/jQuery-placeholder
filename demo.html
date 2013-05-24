@@ -40,6 +40,28 @@
                 <p>See <a href="https://github.com/petkaantonov/jQuery-autogrow">project page</a> for documentation.</p>
             </div>
         </div>
+
+        <div class="row">
+                
+            <div class="span12 well">
+                <h4>Default CSS</h4>
+<pre class="prettyprint">
+.jquery-placeholder-text {
+    color: #aaa;
+    -moz-transition: color, margin-left 0.15s ease-in;
+    -webkit-transition: color, margin-left 0.15s ease-in;
+    -0-transition: color, margin-left 0.15s ease-in;
+    transition: color, margin-left 0.15s ease-in;
+}
+
+.jquery-placeholder-text.jquery-placeholder-text-focused {
+    color: #ddd;
+}
+</pre>
+            </div>
+            
+        </div>
+    
     
         <div class="row">
                 
@@ -118,29 +140,35 @@
                     </div>
                     
                     
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Scrollbar <small>3 rows</small></h4>
-                        </div>
-                        <div class="controls">
-                            <textarea placeholder="Not empty" class="span3 scroll" data-autogrow rows="3"></textarea>
-                            <span class="help-inline"></span>
-                        </div>
-                        
-
-                    </div>
-
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Markup</h4>
-                        </div>
-                        <div class="controls">
+                     <div class="control-group">
+                         <div class="span2">
+                            <h4>Heavily animated <small>3 rows</small></h4>
+                         </div>
+                         <div class="controls heavy-animation">
+                             <textarea placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
+                             <span class="help-inline"></span>
+                         </div>
+                         
+ 
+                     </div>
+ 
+                     <div class="control-group">
+                         <div class="span2">
+                            <h4>Additional CSS</h4>
+                         </div>
+                         <div class="controls">
 <pre class="prettyprint">
-&lt;textarea placeholder="Write something here..." class="span3 scroll" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
-</pre>
+.heavy-animation .jquery-placeholder-text {
+    margin-left: 0px;
+}
 
-                        </div>
+.heavy-animation .jquery-placeholder-text.jquery-placeholder-text-focused {
+    margin-left: 100px;
+    font-style: italic;
+}
+</pre>
                     </div>
+                </div>
                     
                     
                     <div class="control-group">
@@ -170,7 +198,7 @@
  
                      <div class="control-group">
                          <div class="span2">
-                            <h4>CSS <small>...markup <br>is default</small></h4>
+                            <h4>Additional CSS</h4>
                          </div>
                          <div class="controls">
  <pre class="prettyprint">
@@ -191,24 +219,6 @@
             </div>
         </div>
 
-        <div class="row">
-                
-            <div class="span12 well">
-                <h4>CSS <small>Bootstrap and </small></h4>
-<pre class="prettyprint">
-textarea {
-    border: none;
-    resize: none;
-    overflow: hidden;
-}
-
-textarea.scroll {
-    overflow-y: scroll;
-}
-</pre>
-            </div>
-            
-        </div>
     </div>
     
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

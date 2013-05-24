@@ -4,6 +4,10 @@ textarea {
     overflow: hidden;
 }
 
+textarea:focus {
+    outline: none;
+}
+
 textarea.scroll {
     overflow-y: scroll;
 }
@@ -16,13 +20,27 @@ textarea.scroll {
     direction: rtl;
 }
 
+
+
+
+
 .jquery-placeholder-text {
     color: #aaa;
-    -moz-transition: color 0.15s ease-in;
-    -webkit-transition: color 0.15s ease-in;
+    -moz-transition: color, margin-left 0.15s ease-in;
+    -webkit-transition: color, margin-left 0.15s ease-in;
+    -0-transition: color, margin-left 0.15s ease-in;
+    transition: color, margin-left 0.15s ease-in;
 }
 
-.jquery-placeholder-text.jquery-placeholder-text-focused{
+.jquery-placeholder-text.jquery-placeholder-text-focused {
     color: #ddd;
 }
 
+.heavy-animation .jquery-placeholder-text {
+    margin-left: 0px;
+}
+
+.heavy-animation .jquery-placeholder-text.jquery-placeholder-text-focused {
+    margin-left: 100px;
+    font-style: italic;
+}

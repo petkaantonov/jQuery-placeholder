@@ -66,7 +66,7 @@
     }
 
     function numericCss( $elem, key ) {
-        return parseInt( $elem.css( key ), 10 );
+        return parseInt( $elem.css( key ), 10 ) || 0;
     }
     
     function isBorderBox( $elem ) {
@@ -211,7 +211,7 @@
                 this._onPossibleStateChange
             );
             
-            
+            this._elem.on( "destroy.placeholder", $.proxy( this.destroy, this ) );
             
             this._reattach();            
         }
@@ -432,13 +432,14 @@
 
 
     $.fn.placeholder = function( option ) {
-        return this.filter( "textarea,input" ).each( function( option ) {
+        var options = $.extend( {}, option || {} );
+        return this.filter( "textarea,input" ).each( function() {
             
             var $this = $( this ),
                 data = $this.data( INSTANCE_KEY );
             
             if( !data ) {
-                $this.data( INSTANCE_KEY, ( data = new Placeholder( this, $.extend( {}, option || {} ) ) ) );
+                $this.data( INSTANCE_KEY, ( data = new Placeholder( this, options ) ) );
             }
             if( typeof option == 'string' && option.charAt(0) !== "_" && data[option].apply ) {
                 data[option].apply( data, arguments.length > 1 ? [].slice.call( arguments, 1 ) : [] );
@@ -454,7 +455,7 @@
     };
     
     $.fn.placeholder.refresh = function() {
-        $( "textarea[placeholder], input[placeholder]" ).placeholder();
+        $( "textarea[placeholder],input[placeholder]" ).placeholder();
     };
 
     $.fn.placeholder.Constructor = Placeholder;
