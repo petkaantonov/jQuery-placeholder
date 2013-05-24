@@ -1,0 +1,19 @@
+textarea {
+    border: none;
+    resize: none;
+    overflow: hidden;
+}
+
+textarea.scroll {
+    overflow-y: scroll;
+}
+
+.jquery-placeholder-text {
+    color: #aaa;
+    -moz-transition: color 0.15s ease-in;
+    -webkit-transition: color 0.15s ease-in;
+}
+
+.jquery-placeholder-text.jquery-placeholder-text-focused{
+    color: #ddd;
+}
