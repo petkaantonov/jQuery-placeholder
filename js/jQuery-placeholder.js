@@ -22,7 +22,8 @@
 (function(global, $) {
     "use strict";
 
-    //TODO valhooks and positional tests
+    //TODO positional tests and IE 
+    //Require jQuery
 
 
     var INSTANCE_KEY = "placeholder-instance";
@@ -129,7 +130,6 @@
     }
     
     var css = {
-        zIndex: 999,
         outline: "none",
         cursor: "text",
         zoom: 1,
@@ -142,7 +142,11 @@
     };
  
     function makePlaceholder() {
-        return $("<div>", {tabIndex: 0}).css( css ).addClass( $.fn.placeholder.options.styleClass );
+        return $("<div>").css( css ).addClass( $.fn.placeholder.options.styleClass );
+    }
+    
+    function preventDefault(e) {
+        e.preventDefault();
     }
 
     var Placeholder = (function() {
@@ -159,25 +163,38 @@
             this._hideOnFocus = !!parseOption( options, this._elem, "hideOnFocus");
             this._placeholder = makePlaceholder();
             this._state = UNINITIALIZED;
+            
             this._offsetCache = null;
-            
-            this._placeholder.text( this._text ).appendTo( "body" );
-            
+            this._parentCache = null;
+                        
             this._onPossibleStateChange = throttle( this._onPossibleStateChange, 13, this );
             this._onFocus = throttle( this._onFocus, 13, this );
-            
-            this._placeholder.on( "click.placeholder focusin.placeholder focus.placeholder", this._onFocus );
-            
+                        
             this._elem.on(
-                "change.placeholder input.placeholder paste.placeholder " +
+                "cut.placeholder change.placeholder input.placeholder paste.placeholder " +
                 "mouseup.placeholder keydown.placeholder keyup.placeholder " +
                 "keypress.placeholder blur.placeholder focusout.placeholder",
                 this._onPossibleStateChange
             );
             
-            
-            this._updateState();
+            this._reattach();            
         }
+        
+        
+        method._reattach = function() {
+            this._offsetCache = null;
+            this._state = UNINITIALIZED;
+            var parent = this._parentCache = this._elem[0].parentNode;
+        
+            this._placeholder.off( ".placeholder" )
+                .detach()
+                .text( this._text )
+                .on( "click.placeholder focusin.placeholder focus.placeholder", this._onFocus )
+                .on( "selectstart.placeholder", preventDefault )
+                .appendTo( parent );
+                
+            this._updateState();
+        };
         
         method._onPossibleStateChange = function() {
             this._updateState();
@@ -227,17 +244,30 @@
                     this._placeholder.removeClass( $.fn.placeholder.options.focusedClass );
                     this._hide();
                     break;
+                    
+                default: throw new Error("Invalid state");
             
             }
         };
         
+        //Return true if a complete reattach was performed
+        method._checkRemoved = function() {
+            if( this._placeholder[0].parentNode !== this._parentCache ||
+                this._elem[0].parentNode !== this._parentCache
+            ) {
+                this._reattach();
+                return true;
+            }
+            return false;
+        };
+        
         method._updatePositionIfChanged = function() {
-            var offset = this._elem.offset(),
+            var offset = this._elem.position(),
                 cached = this._offsetCache;
-                
-
-            if( cached.left !== offset.left || 
-                cached.top !== offset.top ) {
+            
+            //Don't update position again if the reattach was performed from ._checkRemoved()
+            if( !this._checkRemoved() || !cached || (cached.left !== offset.left || 
+                cached.top !== offset.top) ) {
                 this._updatePosition();
             }
         };
@@ -255,9 +285,9 @@
                 return;
             }
             
-            var offset = el.offset(),
+            var offset = el.position(),
                 pl = this._placeholder;
-
+              
             this._offsetCache = offset;
             
             pl.css({
@@ -270,47 +300,35 @@
         
         method._show = function() {
             this._placeholder.show();
-            this._updatePosition();
-            track( this );
+            this._updatePositionIfChanged();
+            tracker.track( this );
         };
         
         method._hide = function() {
             this._placeholder.hide();
-            untrack( this );
+            tracker.untrack( this );
         };
         
         method.update = function() {
+            this._updateState();
             this._updatePosition();
         };
         
-        method.destroy = function() {        
+        method.destroy = function() {
+            tracker.untrack( this );
             this._onPossibleStateChange.cancel();
             this._onFocus.cancel();
-            this._placeholder.off(".placeholder").remove();
-            this._elem.off(".placeholder").removeData( INSTANCE_KEY );
-            untrack( this );
-        };
-        
-        var trackedInstances = [];
-        
-        var track = function( instance ) {
-            if( $.inArray( instance, trackedInstances ) < 0 ) {
-                trackedInstances.push( instance );
-            }
-            tracker.check();
-        };
-        
-        var untrack = function( instance ) {
-            var i = $.inArray( instance, trackedInstances );
-            if( i > -1 ) {
-                trackedInstances.splice(i, 1);
-            }
-            tracker.check();
+            this._placeholder.off( ".placeholder" ).remove();
+            this._elem.off( ".placeholder" ).removeData( INSTANCE_KEY );
+            this._parentCache = null;
+            
         };
         
         var tracker = (function() {
             var timerId = 0,
                 tracking = false;
+                
+            var trackedInstances = [];
                 
             function track() {
                 for( var i = 0, l = trackedInstances.length; i < l; ++i ) {
@@ -332,9 +350,23 @@
                         tracking = false;
                         timerId = 0;
                     }
+                },
+                
+                track: function( instance ) {
+                    if( $.inArray( instance, trackedInstances ) < 0 ) {
+                        trackedInstances.push( instance );
+                    }
+                    this.check();
+                },
+                
+                untrack: function( instance ) {
+                    var i = $.inArray( instance, trackedInstances );
+                    if( i > -1 ) {
+                        trackedInstances.splice(i, 1);
+                    }
+                    this.check();
                 }
             };
-        
         })();
         
 
@@ -364,12 +396,14 @@
         styleClass: "jquery-placeholder-text",
         focusedClass: "jquery-placeholder-text-focused"
     };
+    
+    $.fn.placeholder.refresh = function() {
+        $( "textarea[data-placeholder], input[data-placeholder]" ).placeholder();
+    };
 
     $.fn.placeholder.Constructor = Placeholder;
     
-    $( function() {
-        $( "textarea[data-placeholder], input[data-placeholder]" ).placeholder();
-    });
+    $($.fn.placeholder.refresh);
     
 
     

@@ -25,6 +25,7 @@
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jQuery-placeholder.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
  </head>
  <body>
     <div class="container">
@@ -141,24 +142,17 @@
                     
                     <div class="control-group">
                         <div class="span2">
-                           <h4>Initially hidden <small>3 rows</small></h4>
+                           <h4>Inside modal<small> ...without relying on zIndex</small></h4>
                         </div>
                         <div class="controls">
-                            <textarea style="display: none;" data-placeholder="Write something here..." class="span3" data-autogrow rows="3"></textarea>
-                            <span class="help-inline"><a onclick="$(this).closest('.controls').find('textarea').toggle(); $(this).text(this.text=='Show'?'Hide':'Show');return false;" href="#">Show</a></span>
+                            <a href="#myModal" role="button" class="btn" data-toggle="modal">Click here</a>
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <div class="span2">
-                           <h4>Markup</h4>
-                        </div>
-                        <div class="controls">
-<pre class="prettyprint">
-&lt;textarea style="display: none;" data-placeholder="Write something here..." class="span3" <span class="hilite">data-autogrow</span> rows="3"&gt;&lt;/textarea&gt;
-</pre>
-                        </div>
-                    </div>
+
+
+                    
+                    
                     
                     
                 </form>
@@ -183,6 +177,21 @@ textarea.scroll {
             </div>
             
         </div>
+    </div>
+    
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Modal header</h3>
+      </div>
+        <p>One fine body…</p>
+      <div class="modal-body">
+      <textarea data-placeholder="Write something here..." class="span3" rows="3"></textarea>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn">Close</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+      </div>
     </div>
     
  </body>
