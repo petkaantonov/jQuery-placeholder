@@ -207,7 +207,7 @@
         pointerEvents: "none",
         backgroundColor: "transparent",
         backgroundImage: "none",
-        float: "none",
+        'float': "none",
         display: "block",
         wordWrap: "break-word"
         
@@ -424,10 +424,22 @@
             this._placeholder.off( ".placeholder" ).remove();
             this._elem.off( ".placeholder" ).removeData( INSTANCE_KEY );
             this._parentCache = null;
-            this._elem.data( "placeholder", this._text );
-            console.log("destroyed");
-            
+            this._elem.data( "placeholder", this._text );            
         };
+
+        var setter = function( elem, value ) {
+            var instance = $.data( elem, INSTANCE_KEY );
+            if( !instance ) {
+                return;
+            }
+            elem.value = value;
+            instance._onPossibleStateChange();
+            return true;
+        };
+
+        $.each( "textarea text password tel email search url number".split( " " ), function( i, input ) {
+            hook.define( hook.VAL, input, hook.SETTER, setter );
+        });
         
         var tracker = (function() {
             var timerId = 0,
@@ -511,24 +523,10 @@
     $.fn.placeholder.refresh = function() {
         $( "textarea[placeholder],input[placeholder]" ).placeholder();
     };
-
-    $.fn.placeholder.setter = function( elem, value ) {
-        var instance = $.data( elem, INSTANCE_KEY );
-        if( !instance ) {
-            return;
-        }
-        elem.value = value;
-        instance._onPossibleStateChange();
-        return true;
-    }
-    
-    $.each( "textarea text password tel email search url number".split( " " ), function( i, input ) {
-        hook.define( hook.VAL, input, hook.SETTER, $.fn.placeholder.setter );
-    });
         
     $.fn.placeholder.Constructor = Placeholder;
     
-    $($.fn.placeholder.refresh);
+    $( $.fn.placeholder.refresh );
     
     
 })(this, this.jQuery);
