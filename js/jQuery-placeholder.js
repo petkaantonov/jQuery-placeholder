@@ -35,6 +35,55 @@
         document = global.document,
         setTimeout = global.setTimeout,
         clearTimeout = global.clearTimeout;
+
+    var hook = (function(){
+        function defineHook( hookKind, hookKey, fnType, fn ) {
+            var hooks = $[hookKind],
+                hook = hooks[hookKey],
+                undef,
+                orig = null;
+
+            if( hook ) {
+                orig = hook[fnType]; 
+            }
+            else {
+                hook = hooks[hookKey] = {};
+            }
+
+            if( fnType === "set" ) {
+                hook[fnType] = function( elem, value, name ) {
+                    var ret;
+                    if( orig ) {
+                        ret = orig( elem, value, name );    
+                    }
+                    
+                    return fn( elem, value, name ) || ret;
+                };
+            }
+            else {
+                hook[fnType] = function( elem, name ) {
+                    var retOrig, ret;
+                    if( orig ) {
+                        retOrig = orig( elem, value );    
+                    }
+                    ret = fn( elem, value );
+                    return ret === null ? retOrig : ret;
+                };
+            }
+
+        }
+
+        return {
+            define: defineHook,
+
+            GETTER: "get",
+            SETTER: "set",
+
+            ATTR: "attrHooks",
+            PROP: "propHooks",
+            VAL: "valHooks"
+        };
+    })();
             
     var boxSizingProp = (function(){
         var props = ["boxSizing", "mozBoxSizing", "webkitBoxSizing"],
@@ -113,7 +162,7 @@
     })();
     
 
-    function throttle( fn, time, ctx ) {
+    function debounce( fn, time, ctx ) {
         var timerId = 0;
         var ret = function() {
             clearTimeout( timerId );
@@ -189,7 +238,12 @@
         
         function Placeholder( elem, options ) {
             this._elem = $(elem);
-            var text = "" + (this._elem.attr("placeholder") || options.text || $.fn.placeholder.options.text);
+            
+            var text = "" + (this._elem.attr( "placeholder" ) ||
+                this._elem.data("placeholder" ) ||
+                options.text ||
+                $.fn.placeholder.options.text);
+                
             this._elem.removeAttr( "placeholder" );
             
             this._text = text;
@@ -201,8 +255,8 @@
             this._offsetCache = null;
             this._parentCache = null;
                         
-            this._onPossibleStateChange = throttle( this._onPossibleStateChange, 13, this );
-            this._onFocus = throttle( this._onFocus, 13, this );
+            this._onPossibleStateChange = debounce( this._onPossibleStateChange, 13, this );
+            this._onFocus = debounce( this._onFocus, 13, this );
                         
             this._elem.on(
                 "cut.placeholder change.placeholder input.placeholder paste.placeholder " +
@@ -370,7 +424,8 @@
             this._placeholder.off( ".placeholder" ).remove();
             this._elem.off( ".placeholder" ).removeData( INSTANCE_KEY );
             this._parentCache = null;
-            this._elem.attr( "placeholder", this._text );
+            this._elem.data( "placeholder", this._text );
+            console.log("destroyed");
             
         };
         
@@ -437,7 +492,6 @@
             
             var $this = $( this ),
                 data = $this.data( INSTANCE_KEY );
-            
             if( !data ) {
                 $this.data( INSTANCE_KEY, ( data = new Placeholder( this, options ) ) );
             }
@@ -458,11 +512,23 @@
         $( "textarea[placeholder],input[placeholder]" ).placeholder();
     };
 
+    $.fn.placeholder.setter = function( elem, value ) {
+        var instance = $.data( elem, INSTANCE_KEY );
+        if( !instance ) {
+            return;
+        }
+        elem.value = value;
+        instance._onPossibleStateChange();
+        return true;
+    }
+    
+    $.each( "textarea text password tel email search url number".split( " " ), function( i, input ) {
+        hook.define( hook.VAL, input, hook.SETTER, $.fn.placeholder.setter );
+    });
+        
     $.fn.placeholder.Constructor = Placeholder;
     
     $($.fn.placeholder.refresh);
-    
-
     
     
 })(this, this.jQuery);

@@ -58,7 +58,7 @@
         
         <div class="row">
             <div class="span4">
-                <h4>Hide on focus</h4>
+                <h4>Hide on focus <small>gets </small></h4>
                 <textarea data-placeholder-hide-on-focus="true" placeholder="Write something here..." class="span3" rows="3"></textarea>
             </div>
             <div class="span8"><h4>Markup</h4>
@@ -122,7 +122,9 @@
 
         <div class="row">
             <div class="span4">
-                <h4>Modal / z-index robustness</h4>
+                <h4>Z-index robustness</h4>
+                <p>The placeholder texts do not show through the overlay, no matter what - there is 
+                no reliance on some specific z-index value.</p>
                 <a href="#myModal" role="button" class="btn" data-toggle="modal">Click here</a>
             </div>
             <div class="span8"><h4>Markup</h4>
@@ -144,9 +146,9 @@
             </div>
             <div class="span8"><h4>Markup+CSS</h4>
 <pre class="prettyprint">
-&lt;input type=&quot;email&quot; <span class="hilite">placeholder</span>=&quot;email&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
-&lt;input type=&quot;password&quot; <span class="hilite">placeholder</span>=&quot;password&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
-&lt;input type=&quot;tel&quot; <span class="hilite">placeholder</span>=&quot;telephone&quot; class=&quot;span3&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;email&quot; <span class="hilite">placeholder</span>=&quot;email&quot;&gt;
+&lt;input type=&quot;password&quot; <span class="hilite">placeholder</span>=&quot;password&quot;&gt;
+&lt;input type=&quot;tel&quot; <span class="hilite">placeholder</span>=&quot;telephone&quot;&gt;
 </pre>
 <pre class="prettyprint">
 .input-placeholders <span class="hilite">.jquery-placeholder-text</span> {
@@ -200,7 +202,7 @@
     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Modal header</h3>
+        <h3>Z-index robustness</h3>
       </div>
       <div class="modal-body">
       <textarea placeholder="Write something here..." class="span3" rows="3"></textarea>
