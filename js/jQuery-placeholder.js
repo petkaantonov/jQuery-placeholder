@@ -463,8 +463,8 @@
             return true;
         };
 
-        $.each( "textarea text password " +
-            "tel email search url number".split( " " ), function( i, input ) {
+        $.each( ("textarea text password " +
+            "tel email search url number").split( " " ), function( i, input ) {
             hook.define( hook.VAL, input, hook.SETTER, setter );
         });
 
