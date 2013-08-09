@@ -66,7 +66,7 @@ The plugin will automatically disable native placeholder.
 **Note:** dynamically created elements need to be called manually with javascript. You may also call `$.fn.placeholder.refresh()` at any point to instantiate any
 uninitialized `data-placeholder` inputs. It is automatically called once on DOM ready event which makes the data API work.
 
-See [the demo page](http://petkaantonov.github.io/jQuery-placeholder/) for a better overview
+See [the demo page](http://petkaantonov.github.io/jQuery-placeholder/demo.html) for a better overview
 
 Building
 ----------
