@@ -71,6 +71,11 @@ See [the demo page](http://petkaantonov.github.io/jQuery-placeholder/demo.html) 
 Building
 ----------
 
+Building requires [Closure Compiler](http://dl.google.com/closure-compiler/compiler-latest.zip) to be placed
+one directory up from the project in `closure_compiler` directory.
+
+The setting is in `Gruntfile.js`, expressed as `closurePath: '../closure_compiler'`
+
 Clone or download the repository, and while in the project root, run:
 
     npm install

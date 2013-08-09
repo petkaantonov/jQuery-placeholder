@@ -26,7 +26,7 @@ module.exports = function( grunt ) {
     gruntConfig["closure-compiler"] = {
         frontend: {
             closurePath: '../closure_compiler',
-            js: BUILD_DEST,
+            js: TMP_DEST,
             jsOutputFile: MIN_DEST,
             maxBuffer: 8192,
             options: {
