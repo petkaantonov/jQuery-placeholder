@@ -1,6 +1,8 @@
 module.exports = function( grunt ) {
 
-    var BUILD_DEST = './js/jQuery-placeholder.js',
+    var SRC_DEST = './src/jQuery-placeholder.js',
+        TMP_DEST = './js/tmp.js',
+        BUILD_DEST = './js/jQuery-placeholder.js',
         MIN_DEST = './js/jQuery-placeholder.min.js'
 
     var gruntConfig = {};
@@ -40,5 +42,26 @@ module.exports = function( grunt ) {
     grunt.initConfig(gruntConfig);
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-closure-compiler');
+
+    grunt.registerTask( "build", function() {
+        var fs = require("fs");
+
+        var src = fs.readFileSync( SRC_DEST, "utf8" );
+
+        var devSrc = src.replace( /%_PRODUCTION/g, "false" );
+        var prodSrc = src.replace( /%_PRODUCTION/g, "true" );
+
+        fs.writeFileSync( BUILD_DEST, devSrc );
+        fs.writeFileSync( TMP_DEST, prodSrc );
+
+    });
+
+    grunt.registerTask( "clean", function() {
+        var fs = require("fs");
+        fs.unlink( TMP_DEST );
+
+    });
+
+    grunt.registerTask( "default", ["build", "jshint", "closure-compiler", "clean"] );
 
 };
