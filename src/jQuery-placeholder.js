@@ -535,7 +535,7 @@
             if( typeof option === "string" &&
                 option.charAt(0) !== "_" &&
                 typeof data[option] === "function" ) {
-                data[option].apply( args );
+                data[option].apply( data, args );
             }
         });
     };
