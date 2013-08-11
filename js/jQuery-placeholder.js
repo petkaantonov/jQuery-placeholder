@@ -188,7 +188,7 @@
                 return $elem.data( dashed );
             }
             else {
-                return $.fn.placeholder.options[key];
+                return plugin.options[key];
             }
         }
     }
@@ -214,7 +214,7 @@
     function makePlaceholder() {
         return $("<div>")
             .css( css )
-            .addClass( $.fn.placeholder.options.styleClass )
+            .addClass( plugin.options.styleClass )
             .data( INSTANCE_KEY, true );
     }
 
@@ -243,7 +243,7 @@
             var text = "" + (this._elem.attr( "placeholder" ) ||
                 this._elem.data("placeholder" ) ||
                 options.text ||
-                $.fn.placeholder.options.text);
+                plugin.options.text);
 
             this._elem.removeAttr( "placeholder" );
 
@@ -348,21 +348,21 @@
             switch( this._state ) {
                 case UNFOCUSED:
                     this._placeholder.removeClass(
-                        $.fn.placeholder.options.focusedClass
+                        plugin.options.focusedClass
                     );
                     this._show();
                     break;
 
                 case FOCUSED:
                     this._placeholder.addClass(
-                        $.fn.placeholder.options.focusedClass
+                        plugin.options.focusedClass
                     );
                     this._show();
                     break;
 
                 case FILLED:
                     this._placeholder.removeClass(
-                        $.fn.placeholder.options.focusedClass
+                        plugin.options.focusedClass
                     );
                     this._hide();
                     break;
@@ -519,9 +519,10 @@
 
         return Placeholder;
     })();
-
-
-    $.fn.placeholder = function( option ) {
+    var old = $.fn.placeholder;
+    var plugin;
+    plugin = $.fn.placeholder = function( option ) {
+        var args = [].slice.call( arguments, 1 );
         var options = $.extend( {}, option || {} );
         return this.filter( "textarea,input" ).each( function() {
 
@@ -534,30 +535,33 @@
             if( typeof option === "string" &&
                 option.charAt(0) !== "_" &&
                 typeof data[option] === "function" ) {
-                data[option].apply(
-                    data,
-                    arguments.length > 1
-                        ? [].slice.call( arguments, 1 )
-                        : []
-                );
+                data[option].apply( args );
             }
         });
     };
 
-    $.fn.placeholder.options = {
+    plugin.noConflict = function() {
+        $.fn.placeholder = old;
+        return plugin;
+    };
+
+    plugin.options = {
         hideOnFocus: false,
         text: "Write something here...",
         styleClass: "jquery-placeholder-text",
         focusedClass: "jquery-placeholder-text-focused"
     };
 
-    $.fn.placeholder.refresh = function() {
+    plugin.refresh = function() {
         $( "textarea[placeholder],input[placeholder]" ).placeholder();
     };
 
-    $.fn.placeholder.Constructor = Placeholder;
+    plugin.Constructor = Placeholder;
 
-    $( $.fn.placeholder.refresh );
+    $( plugin.refresh );
 
+    $.ajaxPrefilter( function( o, oo, jqxhr ) {
+        (jqxhr.complete || jqxhr.always)( plugin.refresh );
+    });
 
 })(this, this.jQuery);
